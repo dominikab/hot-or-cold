@@ -20,7 +20,7 @@ $(document).ready(function(){
     $('#feedback').text('Give a number between 0 and 100');
 	function random(){
 		randomNumber=Math.ceil(Math.random()*100);
-		console.log('The secret number is : '+randomNumber);
+		//console.log('The secret number is : '+randomNumber);
 		return randomNumber;
 	}
 	random();
@@ -41,10 +41,10 @@ $('a.close').click(function(){
 function checkGuess(guess,guessHistory){
 	var feedback = '';
 	var bottomFeed = '';
-  console.log('guess stuff in checkGuess', guess, guessHistory)
+  //console.log('guess stuff in checkGuess', guess, guessHistory)
 	// check if the guess occured before
 	if (guessHistory.indexOf(guess)>-1){ 
-		  console.log(guess,'guess in if loop');
+		  //console.log(guess,'guess in if loop');
 		 feedback+='You guessed this number before ';
 		}
 	//check the user's guess
@@ -86,11 +86,11 @@ $('#guessButton').click(function(event){
 var makeGuess = function (){
   	guess=$('#userGuess').val();
 		$('#userGuess').val(' ');
-		console.log('passing argument',guess)
+		//console.log('passing argument',guess)
 		
 		if (Number(guess)){
 			guess=Number(guess);
-			console.log('guess is:', guess)
+			//console.log('guess is:', guess)
 		  guessHistory.push(guess); 
 		  guessCount++;
 		  $('#guessList').append('<li>' +guess+ '</li>'); 
@@ -100,7 +100,7 @@ var makeGuess = function (){
   };
 
 
-console.log('the guessCount is at the end: '+ guessCount);
+//console.log('the guessCount is at the end: '+ guessCount);
 
 });
 
