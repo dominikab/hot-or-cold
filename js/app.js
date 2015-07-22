@@ -1,64 +1,92 @@
 
+var guessCount=0;
+var guessHistory=[];
+
 $(document).ready(function(){
+
 	var guess; 
 	var randomNumber;
-	var guessCount=0;
+	
 
-function newGame(){
-	//guessCount=0;
+	function newGame(){
+	guessCount=0;
+	guessHistory=[];
 	// set a random number
-
+    $('#feedback').text("Give a number between 0 and 100");
 	function random(){
- 		randomNumber=Math.ceil(Math.random()*100);
+		randomNumber=Math.ceil(Math.random()*100);
+		console.log("The secret number is : "+randomNumber);
 		return randomNumber;
-		}
-	random();
-	return guessCount;
 	}
+	random();
+	
+}
 
 
-	/*--- Display information modal box ---*/
-  	$(".what").click(function(){
-    	$(".overlay").fadeIn(1000);
+/*--- Display information modal box ---*/
+$(".what").click(function(){
+	$(".overlay").fadeIn(1000);
 
-  	});
+});
 
-  	/*--- Hide information modal box ---*/
-  	$("a.close").click(function(){
-  		$(".overlay").fadeOut(1000);
-  	});
+/*--- Hide information modal box ---*/
+$("a.close").click(function(){
+	$(".overlay").fadeOut(1000);
+});
 
 function checkGuess(guess){
-	//alert("GUess is "+ guess)
-	$('#feedback').text("HELLO WORLD");
+	var feedback='Keep guessing :) ';
 
+	// check if the guess occured before
+	if 	(guessHistory.indexOf(guess))
+		{ feedback+="You guessed this number before "}
+	//check the user's guess
+	if (guess !== guess) {alert("you provided a string")}
+	else if (guess==randomNumber)
+		{ feedback='Good job!! You win! '}
+	else if (guess>randomNumber)
+		{feedback += 'You are hotter';}
+	else if (guess<randomNumber){
+		feedback+='You are colder';
 	}
 
- $("#userGuess").keyup(function(event) {
-        if(event.keyCode == 13){
-            $("#guessButton").click();
-        }
-    });
+	$('#feedback').text(feedback);
+	$('#count').text(guessCount);
+}
 
-	
+$("#guessButton").click(function(event){
+	event.preventDefault();
+	makeGuess();
+});
+
+
+$("#userGuess").keyup(function(event) {
+	if(event.keyCode == 13) {
+		makeGuess();
+	}
+});
+
+	// 	$("#guessButton").click(function(event){
+	// event.preventDefault();
+
+  var makeGuess = function (){
+  	guess=$("#userGuess").val();
+		$('#userGuess').val(" ");
+		if (Number(guess)){
+			guess=Number(guess);
+			console.log('guess is:', guess)
+		  guessHistory.push(guess); 
+		  guessCount++;
+		  $('#guessList').append("<li>" +guess+ "</li>"); 
+		}
+		checkGuess(guess)
+		console.log('Your guess is:', guess)
+		console.log(guessHistory);
+  };
+
 $(".new").click(function(){
 	newGame();
 })
-
-// receive the input from the textbox
-$("#guessButton").click(function(){
- guess=$("#userGuess").val()
- console.log("You typed : " + guess);
- guessCount++;
- console.log(guessCount)
-checkGuess(guess)
-console.log("the guessCount is now "+ guessCount);
-$('#count').first().text(guessCount);
-return guessCount;
-}) 
-
-
-
 
 console.log("the guessCount is at the end: "+ guessCount)
 
