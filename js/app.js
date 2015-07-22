@@ -6,7 +6,7 @@ var randomNumber;
 
 
 $(document).ready(function(){
-
+	newGame();
   $('.new').click(function(){
 	newGame();
 })
@@ -15,6 +15,7 @@ $(document).ready(function(){
 	function newGame(){
 	guessCount=0;
 	guessHistory=[];
+	$('#guessList li').remove();
 	// set a random number
     $('#feedback').text('Give a number between 0 and 100');
 	function random(){
@@ -38,7 +39,8 @@ $('a.close').click(function(){
 });
 
 function checkGuess(guess,guessHistory){
-	var feedback='';
+	var feedback = '';
+	var bottomFeed = '';
   console.log('guess stuff in checkGuess', guess, guessHistory)
 	// check if the guess occured before
 	if (guessHistory.indexOf(guess)>-1){ 
@@ -49,15 +51,21 @@ function checkGuess(guess,guessHistory){
 	if (!(Number(guess))){
 		alert('you provided a string');
 	} else if (guess===randomNumber){ 
-		feedback='Good job!! You win!','\n',
-		 'Click new game to play again';
+		feedback='Good job!! You win!';
+		var howmany = 'guesses';
+		if (guessCount===1){
+			howmany = 'guess'
+		}
+		bottomFeed = 'You took '+ guessCount+' '+howmany+'!<br>'+
+		'Click `New Game`  to play again! '
 	} else if (guess>randomNumber){
 		feedback += 'You are hotter, keep guessing!';
 	} else if (guess<randomNumber){
 		feedback+='You are colder, keep guessing!';
 	}
-	$('#feedback').text(feedback);
-	$('#count').text(guessCount);
+	$('#feedback').html(feedback);
+	$('#count').html(guessCount);
+	$('#guessList').html(bottomFeed)
 }
 
 
