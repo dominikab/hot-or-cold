@@ -7,16 +7,19 @@ var randomNumber;
 
 $(document).ready(function(){
 
+  $('.new').click(function(){
+	newGame();
+})
 
 
 	function newGame(){
 	guessCount=0;
 	guessHistory=[];
 	// set a random number
-    $('#feedback').text("Give a number between 0 and 100");
+    $('#feedback').text('Give a number between 0 and 100');
 	function random(){
 		randomNumber=Math.ceil(Math.random()*100);
-		console.log("The secret number is : "+randomNumber);
+		console.log('The secret number is : '+randomNumber);
 		return randomNumber;
 	}
 	random();
@@ -24,65 +27,57 @@ $(document).ready(function(){
 }
 
 /*--- Display information modal box ---*/
-$(".what").click(function(){
-	$(".overlay").fadeIn(1000);
+$('.what').click(function(){
+	$('.overlay').fadeIn(1000);
 
 });
 
 /*--- Hide information modal box ---*/
-$("a.close").click(function(){
-	$(".overlay").fadeOut(1000);
+$('a.close').click(function(){
+	$('.overlay').fadeOut(1000);
 });
 
 function checkGuess(guess,guessHistory){
 	var feedback='';
- console.log('guess stuff in checkGuess', guess, guessHistory)
+  console.log('guess stuff in checkGuess', guess, guessHistory)
 	// check if the guess occured before
-	if (guessHistory.indexOf(guess)!==-1){ 
-		  console.log(guess,'guess in if loop')
-		 feedback+="You guessed this number before "
+	if (guessHistory.indexOf(guess)>-1){ 
+		  console.log(guess,'guess in if loop');
+		 feedback+='You guessed this number before ';
 		}
 	//check the user's guess
-	if (guess !== guess) {alert("you provided a string")}
-	else if (guess===randomNumber)
-		{ feedback='Good job!! You win! '}
-	else if (guess>randomNumber)
-		{feedback += 'You are hotter';}
-	else if (guess<randomNumber){
-		feedback+='You are colder';
+	if (!(Number(guess))){
+		alert('you provided a string');
+	} else if (guess===randomNumber){ 
+		feedback='Good job!! You win!','\n',
+		 'Click new game to play again';
+	} else if (guess>randomNumber){
+		feedback += 'You are hotter, keep guessing!';
+	} else if (guess<randomNumber){
+		feedback+='You are colder, keep guessing!';
 	}
-
 	$('#feedback').text(feedback);
 	$('#count').text(guessCount);
 }
 
-$("#guessButton").click(function(event){
+
+$('#guessButton').click(function(event){
 	event.preventDefault();
 	makeGuess();
 });
 
- $("#userGuesss").keypress(function (e) {
+ $('#userGuesss').keypress(function (e) {
         if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-            $("#guessButton").click();
+            $('#guessButton').click();
             return false;
         } else {
             return true;
         }
     });
 
-
-// $("#userGuess").keyup(function(event) {
-// 	if(event.keyCode == 13) {
-// 		makeGuess();
-// 	}
-// });
-
-	// 	$("#guessButton").click(function(event){
-	// event.preventDefault();
-
-  var makeGuess = function (){
-  	guess=$("#userGuess").val();
-		$('#userGuess').val(" ");
+var makeGuess = function (){
+  	guess=$('#userGuess').val();
+		$('#userGuess').val(' ');
 		console.log('passing argument',guess)
 		
 		if (Number(guess)){
@@ -90,26 +85,14 @@ $("#guessButton").click(function(event){
 			console.log('guess is:', guess)
 		  guessHistory.push(guess); 
 		  guessCount++;
-		  $('#guessList').append("<li>" +guess+ "</li>"); 
+		  $('#guessList').append('<li>' +guess+ '</li>'); 
 		}
-		checkGuess(guess, guessHistory)
+		checkGuess(guess,  guessHistory.slice(0,guessHistory.length-1))
 		guess='';
   };
 
-$(".new").click(function(){
-	newGame();
-})
 
-console.log("the guessCount is at the end: "+ guessCount)
-
-
-//document.getElementById('textbox_id').value
-
-	// initialize new game 
-
-// take input from the user into 
-
-
+console.log('the guessCount is at the end: '+ guessCount);
 
 });
 
