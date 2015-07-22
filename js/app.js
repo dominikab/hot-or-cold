@@ -1,12 +1,13 @@
 
 var guessCount=0;
 var guessHistory=[];
+var guess; 
+var randomNumber;
+
 
 $(document).ready(function(){
 
-	var guess; 
-	var randomNumber;
-	
+
 
 	function newGame(){
 	guessCount=0;
@@ -22,7 +23,6 @@ $(document).ready(function(){
 	
 }
 
-
 /*--- Display information modal box ---*/
 $(".what").click(function(){
 	$(".overlay").fadeIn(1000);
@@ -34,15 +34,17 @@ $("a.close").click(function(){
 	$(".overlay").fadeOut(1000);
 });
 
-function checkGuess(guess){
-	var feedback='Keep guessing :) ';
-
+function checkGuess(guess,guessHistory){
+	var feedback='';
+ console.log('guess stuff in checkGuess', guess, guessHistory)
 	// check if the guess occured before
-	if 	(guessHistory.indexOf(guess))
-		{ feedback+="You guessed this number before "}
+	if (guessHistory.indexOf(guess)!==-1){ 
+		  console.log(guess,'guess in if loop')
+		 feedback+="You guessed this number before "
+		}
 	//check the user's guess
 	if (guess !== guess) {alert("you provided a string")}
-	else if (guess==randomNumber)
+	else if (guess===randomNumber)
 		{ feedback='Good job!! You win! '}
 	else if (guess>randomNumber)
 		{feedback += 'You are hotter';}
@@ -59,12 +61,21 @@ $("#guessButton").click(function(event){
 	makeGuess();
 });
 
+ $("#userGuesss").keypress(function (e) {
+        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            $("#guessButton").click();
+            return false;
+        } else {
+            return true;
+        }
+    });
 
-$("#userGuess").keyup(function(event) {
-	if(event.keyCode == 13) {
-		makeGuess();
-	}
-});
+
+// $("#userGuess").keyup(function(event) {
+// 	if(event.keyCode == 13) {
+// 		makeGuess();
+// 	}
+// });
 
 	// 	$("#guessButton").click(function(event){
 	// event.preventDefault();
@@ -72,6 +83,8 @@ $("#userGuess").keyup(function(event) {
   var makeGuess = function (){
   	guess=$("#userGuess").val();
 		$('#userGuess').val(" ");
+		console.log('passing argument',guess)
+		
 		if (Number(guess)){
 			guess=Number(guess);
 			console.log('guess is:', guess)
@@ -79,9 +92,8 @@ $("#userGuess").keyup(function(event) {
 		  guessCount++;
 		  $('#guessList').append("<li>" +guess+ "</li>"); 
 		}
-		checkGuess(guess)
-		console.log('Your guess is:', guess)
-		console.log(guessHistory);
+		checkGuess(guess, guessHistory)
+		guess='';
   };
 
 $(".new").click(function(){
