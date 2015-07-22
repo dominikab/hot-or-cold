@@ -16,11 +16,13 @@ $(document).ready(function(){
 	guessCount=0;
 	guessHistory=[];
 	$('#guessList li').remove();
+	bottomFeed = '';
+	$('#guessList').html(bottomFeed)
 	// set a random number
     $('#feedback').text('Give a number between 0 and 100');
 	function random(){
 		randomNumber=Math.ceil(Math.random()*100);
-		//console.log('The secret number is : '+randomNumber);
+		console.log('The secret number is : '+randomNumber);
 		return randomNumber;
 	}
 	random();
@@ -40,7 +42,6 @@ $('a.close').click(function(){
 
 function checkGuess(guess,guessHistory){
 	var feedback = '';
-	var bottomFeed = '';
   //console.log('guess stuff in checkGuess', guess, guessHistory)
 	// check if the guess occured before
 	if (guessHistory.indexOf(guess)>-1){ 
@@ -56,7 +57,7 @@ function checkGuess(guess,guessHistory){
 		if (guessCount===1){
 			howmany = 'guess'
 		}
-		bottomFeed = 'You took '+ guessCount+' '+howmany+'!<br>'+
+		var bottomFeed = 'You took '+ guessCount+' '+howmany+'!<br>'+
 		'Click `New Game`  to play again! '
 	} else if (guess>randomNumber){
 		feedback += 'You are hotter, keep guessing!';
@@ -65,7 +66,9 @@ function checkGuess(guess,guessHistory){
 	}
 	$('#feedback').html(feedback);
 	$('#count').html(guessCount);
-	$('#guessList').html(bottomFeed)
+	if (bottomFeed){
+ 		$('#guessList').html(bottomFeed)
+	}
 }
 
 
